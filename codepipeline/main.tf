@@ -102,6 +102,10 @@ resource "aws_codebuild_project" "codebuild-project" {
       name = "AWS_DEFAULT_REGION"
       value = var.aws-region
     }
+    environment_variable {
+      name = "TASK_FAMILY"
+      value = "Umar_task_definition"
+    }
     
   }
   logs_config {

@@ -231,7 +231,17 @@ resource "aws_iam_role_policy" "codestar_connection_policy" {
         "logs:PutLogEvents"
       ],
       "Resource": "*"
+    },
+    {
+      "Sid": "Statement6",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:DescribeTaskDefinition",
+        "ecs:RegisterTaskDefinition"
+      ],
+      "Resource": "*"
     }
+
   ]
 
   })
