@@ -89,12 +89,95 @@ resource "aws_iam_instance_profile" "instance_profile" {
 }
 
 #importing codepipeline role from AWS Console
-data "aws_iam_role" "codepipeline-iam-role" {
-  name = "AWSCodePipelineServiceRole-us-east-2-umar-codepipeline"
+ resource "aws_iam_role" "codepipeline-iam-role" {
+  name = "umar-codepipeline-service-role-2"
+  assume_role_policy =  jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect = "Allow",
+        Principal = {
+          Service = "codepipeline.amazonaws.com"
+        },
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+resource "aws_iam_role_policy" "codepipeline_policy" {
+  name = "umar-codepipeline-service-role-policy"
+  role = aws_iam_role.codepipeline-iam-role.id
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "Statement1",
+        "Effect": "Allow",
+        "Action": "s3:*",
+        "Resource": [
+          "arn:aws:s3:::umar-codepipeline-bucket-task-8",
+          "arn:aws:s3:::umar-codepipeline-bucket-task-8/*"
+        ]
+      },
+      {
+        "Sid": "Statement2",
+        "Effect": "Allow",
+        "Action": "ecs:*",
+        "Resource": "*"
+      },
+      {
+        "Sid": "Statement3",
+        "Effect": "Allow",
+        "Action": [
+          "iam:PassRole"
+        ],
+        "Resource": "arn:aws:iam::504649076991:role/ecsTaskExecutionRole2"
+      },
+      {
+        "Sid": "Statement4",
+        "Effect": "Allow",
+        "Action": "ecr:*",
+        "Resource": "*"
+      },
+      {
+        "Sid": "Statement5",
+        "Effect": "Allow",
+        "Action": [
+          "codestar-connections:UseConnection"
+        ],
+        "Resource": "arn:aws:codestar-connections:us-east-2:504649076991:connection/1bb6327e-7e4f-4ac7-9148-4eb4cc4712f3"
+      },
+      {
+        "Sid": "Statement6",
+        "Effect": "Allow",
+        "Action": "codedeploy:*",
+        "Resource": "*"
+      },
+      {
+        "Sid": "Statement7",
+        "Effect": "Allow",
+        "Action": [
+          "codebuild:BatchGetBuilds",
+          "codebuild:StartBuild"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "Statement8",
+        "Effect": "Allow",
+        "Action": [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
 }
 #importing codepibuild role from AWS Console
 resource "aws_iam_role" "codebuild-iam-role" {
-  name = "umar-codebuild-service-role"
+  name = "umar-codebuild-service-role-2"
   assume_role_policy =  jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -109,61 +192,51 @@ resource "aws_iam_role" "codebuild-iam-role" {
   })
 }
 resource "aws_iam_role_policy" "codestar_connection_policy" {
-  name = "Allow-git-connection"
+  name = "codebuild-all-policies"
   role = aws_iam_role.codebuild-iam-role.id
   policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "codestar-connections:GetConnectionToken",
-          "codestar-connections:GetConnection",
-          "codeconnections:GetConnectionToken",
-          "codeconnections:GetConnection",
-          "codeconnections:UseConnection"
-        ],
-        Resource = "arn:aws:codestar-connections:us-east-2:504649076991:connection/3a87c06f-a785-4099-a6ba-bd56ec2e18be"
-      }
-    ]
-  })
-}
-resource "aws_iam_role_policy" "codebuild_artifacts_and_reports_policy" {
-  name = "codebuild-s3-reports-policy"
-  role = aws_iam_role.codebuild-iam-role.id
+    
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Statement1",
+      "Effect": "Allow",
+      "Action": "ecr:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Statement2",
+      "Effect": "Allow",
+      "Action": "codestar-connections:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Statement3",
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Statement4",
+      "Effect": "Allow",
+      "Action": "codebuild:*",
+      "Resource": "*"
+    },
+    {
+      "Sid": "Statement5",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "*"
+    }
+  ]
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Resource = [
-          "arn:aws:s3:::codepipeline-us-east-2-*"
-        ],
-        Action = [
-          "s3:PutObject",
-          "s3:GetObject",
-          "s3:GetObjectVersion",
-          "s3:GetBucketAcl",
-          "s3:GetBucketLocation"
-        ]
-      },
-      {
-        Effect = "Allow",
-        Action = [
-          "codebuild:CreateReportGroup",
-          "codebuild:CreateReport",
-          "codebuild:UpdateReport",
-          "codebuild:BatchPutTestCases",
-          "codebuild:BatchPutCodeCoverages"
-        ],
-        Resource = [
-          "arn:aws:codebuild:us-east-2:504649076991:report-group/umar-codebuild-service-role-*"
-        ]
-      }
-    ]
   })
 }
+
 
 
 #importing codedeploy role from AWS Console

@@ -5,7 +5,7 @@ output "execution_role_arn" {
   value = aws_iam_role.ecs_task_execution_role.arn
 }
 output "codepipeline_role" {
-  value = data.aws_iam_role.codepipeline-iam-role.arn
+  value = aws_iam_role.codepipeline-iam-role.arn
 }
 output "codebuild_role" {
   value = aws_iam_role.codebuild-iam-role.arn

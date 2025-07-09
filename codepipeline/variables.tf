@@ -34,3 +34,6 @@ variable "alb-target-group-2" {
 variable "connection-policy" {
   type = string
 }
+variable "cloudwatch_log_group" {
+  type = string
+}

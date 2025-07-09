@@ -64,6 +64,7 @@ module "codepipeline" {
   ecs-cluster-name = module.ecs.ecs-cluster-name
   ecs-service-name = module.ecs.ecs-service-name
   connection-policy = module.iam.codestar_connection_policy
+  cloudwatch_log_group = module.ecs.cloudwatch_log_group
   providers = {
     aws = aws.ohio
   }

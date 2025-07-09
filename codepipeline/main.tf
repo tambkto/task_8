@@ -25,7 +25,7 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ConnectionArn    = aws_codestarconnections_connection.github-connection.arn
-        FullRepositoryId = "https://github.com/tambkto/task_8"
+        FullRepositoryId = "tambkto/task_8"
         BranchName       = "main"
       }
     }
@@ -103,6 +103,13 @@ resource "aws_codebuild_project" "codebuild-project" {
       value = var.aws-region
     }
     
+  }
+  logs_config {
+    cloudwatch_logs {
+      group_name = var.cloudwatch_log_group
+      stream_name = "build-logs"
+      status = "ENABLED"
+    }
   }
 
   source {

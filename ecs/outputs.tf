@@ -13,3 +13,6 @@ output "ecs-cluster-name" {
 output "ecs-service-name" {
   value = aws_ecs_service.service.name
 }
+output "cloudwatch_log_group" {
+  value = aws_cloudwatch_log_group.cloudwatch_log_group.name
+}
