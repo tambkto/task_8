@@ -19,7 +19,10 @@ phases:
       - docker push $ECR_REPO_URI:latest
       - echo Creating imagedefinitions.json for ECS deploy stage...
       - printf '[{"name":"Umar_app_container","imageUri":"%s"}]' "$ECR_REPO_URI:latest" > imagedefinitions.json
-
+      - TASK_DEFINITION=$(aws ecs describe-task-definition --task-definition "$TASK_FAMILY" --region "$AWS_DEFAULT_REGION")
+      - NEW_TASK_DEFINITION=$(echo $TASK_DEFINITION | jq --arg NEW_IMAGE "$ECR_REPO_URI:latest" '.taskDefinition | .containerDefinitions[0].image = $NEW_IMAGE | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)')
+      - aws ecs register-task-definition --region "$AWS_DEFAULT_REGION" --cli-input-json "$NEW_TASK_DEFINITION"
+      - echo New task definition revision created successfully
 artifacts:
   files:
     - imagedefinitions.json
