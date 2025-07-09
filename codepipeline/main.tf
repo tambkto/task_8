@@ -60,7 +60,7 @@ resource "aws_codepipeline" "codepipeline" {
 
       configuration = {
         ApplicationName = aws_codedeploy_app.codedeploy_app.name
-        DeploymentGroupName = "umar-deployment-group"
+        DeploymentGroupName = "umar-codepipeline-deployment-group"
       }
     }
   }
