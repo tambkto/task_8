@@ -8,7 +8,7 @@ terraform {
 resource "aws_codepipeline" "codepipeline" {
   name     = "umar-task8-pipeline"
   role_arn = var.codepipeline_role_arn // has to add role in IAM module.
-
+  pipeline_type = "v2"
   artifact_store {
     location = aws_s3_bucket.umar-codepipeline-bucket.bucket
     type     = "S3" 
