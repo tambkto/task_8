@@ -61,7 +61,7 @@ resource "aws_ecs_task_definition" "task" {
   container_definitions = jsonencode([
     {
       name: "${var.owner_name}_app_container",
-      image: "${aws_ecr_repository.nginx_repo.repository_url}:latest"
+      image: "nginx:latest",
       cpu: 512,
       memory: 256,
       essential: true,
