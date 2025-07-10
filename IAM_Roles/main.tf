@@ -237,7 +237,7 @@ resource "aws_iam_role_policy" "codestar_connection_policy" {
         "Action": [
           "iam:PassRole"
         ],
-        "Resource": "arn:aws:iam::504649076991:role/umar-codebuild-service-role-2"
+        "Resource": "arn:aws:iam::504649076991:role/ecsTaskExecutionRole2"
       },
     {
       "Sid": "Statement6",
