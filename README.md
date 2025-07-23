@@ -16,7 +16,7 @@ This repository uses **Terraform** to provision AWS infrastructure and deploy an
 
 ## Architecture Diagram
 
-![Folder Structure](./task9.png)
+![Folder Structure](./task8.png)
 ## 🔐 AWS CLI Configuration
 
 Ensure your CLI is configured with proper credentials:
