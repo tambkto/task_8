@@ -1,7 +1,7 @@
 
 # Code Pipeline ECS EC2 Task Deployment
 
-This repository uses **Terraform** to provision AWS infrastructure and deploy an **Nginx container** using **Amazon ECS (Fargate)**.
+This repository uses **Terraform** to provision AWS infrastructure and deploy an **application** using **Code Pipeline**.
 
 ## 🚀 Project Overview
 
